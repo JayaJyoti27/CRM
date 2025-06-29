@@ -1,0 +1,31 @@
+const dotenv = require("dotenv");
+dotenv.config();
+const express = require("express");
+const app = express();
+const cors = require("cors");
+app.use(cors());
+app.use(express.json());
+
+const customerRoutes = require("./Routes/Customer.Routes.js");
+const orderRoutes = require("./Routes/Orders.Routes.js");
+const campaignRoutes = require("./Routes/Campaign.Routes.js");
+const segmentRoutes = require("./Routes/Segment.Routes.js");
+const uploadRoutes = require("./Routes/Uploads.Routes.js");
+const aiRoutes = require("./Routes/Ai.Routes.js");
+const authRoutes = require("./Routes/Auth.Routes.js");
+const vendorRoutes = require("./Routes/Vendor.Routes.js");
+const deliveryReciept = require("./Routes/DelieveryReciept.Routes.js");
+app.use("/auth", authRoutes);
+const verifyToken = require("./middlewares/Auth");
+app.use("/campaign", verifyToken, campaignRoutes);
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+app.use("/customers", customerRoutes);
+app.use("/orders", orderRoutes);
+app.use("/vendor", vendorRoutes);
+app.use("/delievery", deliveryReciept);
+app.use("/segment", segmentRoutes);
+app.use("/uploads", uploadRoutes);
+app.use("/ai", aiRoutes);
+module.exports = app;
